@@ -23,37 +23,36 @@ function livefyre_menu() {
 function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
   switch ($op) {
     case 'view':
-      $lf_node_types = variable_get('livefyre_node_types', array());
-      $lf_disabled = variable_get('livefyre_disabled', TRUE);
-      $lf_account_num = variable_get('livefyre_acct_num', '');
+      $livefyre_node_types = variable_get('livefyre_node_types', array());
+      $livefyre_disabled = variable_get('livefyre_disabled', TRUE);
+      $livefyre_account_num = variable_get('livefyre_acct_num', '');
       $livefyre_supplied_js =  variable_get('livefyre_supplied_js', '');
-      $custom_script_snippet =  variable_get('custom_script_snippet', '');
-      $lf_free_version_check = variable_get('lf_free_version', 1);
-      $free_version_html = "<!-- START: Livefyre Embed -->
+      $livefyre_custom_script_snippet =  variable_get('custom_script_snippet', '');
+      $livefyre_free_version_check = variable_get('lf_free_version', 1);
+      $livefyre_free_version_html = "<!-- START: Livefyre Embed -->
 <script type='text/javascript' src='$livefyre_supplied_js'></script>
 <!--<style type='text/css'>#lf_message_tbl{height: 100px !important;}</style>-->
 <script type='text/javascript'>
     var fyre = LF({
-        site_id: $lf_account_num
+        site_id: $livefyre_account_num
     });
 </script>
 <!-- END: Livefyre Embed -->";
-      if ($lf_disabled || empty($lf_account_num)) {
+      if ($livefyre_disabled || empty($livefyre_account_num)) {
         return;
       }
-      $show_lf = count(array_keys($lf_node_types, $node->type))
+      $livefyre_show_livefyre = count(array_keys($livefyre_node_types, $node->type))
                  && (!$teaser && $page && isset($node->body))
                  && (variable_get('livefyre_location', 'content_area') == 'content_area');
-                 echo $show_lf;
-      if ($show_lf) {
+                 echo $livefyre_show_livefyre;
+      if ($livefyre_show_livefyre) {
         $node->content['livefyre'] = array(
-          '#value' => theme('livefyre_comments', $livefyre_supplied_js, $lf_account_num, $custom_script_snippet, $free_version_html, $lf_free_version_check),
+          '#value' => theme('livefyre_comments', $livefyre_supplied_js, $livefyre_account_num, $livefyre_custom_script_snippet, $livefyre_free_version_html, $livefyre_free_version_check),
           '#weight' => variable_get('livefyre_weight', 50),
           );
       }
       break;
-    default:
-      break;
+
   }
 }
 
@@ -76,37 +75,34 @@ function livefyre_block($op = 'list', $delta = 0, $edit = array()) {
             'cache' => BLOCK_NO_CACHE),
           );
       break;
+    
     case 'view':
       switch ($delta) {
         case 'livefyre_comments':
-          $lf_disabled = variable_get('livefyre_disabled', TRUE);
+          $livefyre_disabled = variable_get('livefyre_disabled', TRUE);
           $lf_location = variable_get('livefyre_location', 'content_area');
           
-          if (!$lf_disabled && $lf_location == 'block') {
-          $lf_account_num = variable_get('livefyre_acct_num', '');
+          if (!$livefyre_disabled && $lf_location == 'block') {
+          $livefyre_account_num = variable_get('livefyre_acct_num', '');
           $livefyre_supplied_js =  variable_get('livefyre_supplied_js', '');
-          $custom_script_snippet =  variable_get('custom_script_snippet', '');
-          $lf_free_version_check = variable_get('lf_free_version', 1);
-          $free_version_html = "<!-- START: Livefyre Embed -->
+          $livefyre_custom_script_snippet =  variable_get('custom_script_snippet', '');
+          $livefyre_free_version_check = variable_get('lf_free_version', 1);
+          $livefyre_free_version_html = "<!-- START: Livefyre Embed -->
 <style type='text/css'>#lf_message_tbl{height: 100px !important;}</style>
 <script type='text/javascript' src='$livefyre_supplied_js'></script>
 <script type='text/javascript'>
     var fyre = LF({
-        site_id: $lf_account_num
+        site_id: $livefyre_account_num
     });
 </script>
 <!-- END: Livefyre Embed -->";
           return array(
-                'content' => theme('livefyre_comments', $livefyre_supplied_js, $lf_account_num, $custom_script_snippet, $free_version_html, $lf_free_version_check),
+                'content' => theme('livefyre_comments', $livefyre_supplied_js, $livefyre_account_num, $livefyre_custom_script_snippet, $livefyre_free_version_html, $livefyre_free_version_check),
             );
           }
           break;
-        default:
-          break;
-      }
-      break;
-    default:
-      break;
+
+    }
   }
 }
 
@@ -127,14 +123,14 @@ function livefyre_theme() {
   );
 }
 
-function theme_livefyre_comments($livefyre_supplied_js, $lf_account_num, $custom_script_snippet, $free_version_html, $lf_free_version_check) {
-  //echo '$lf_free_version_check ' . $lf_free_version_check;
+function theme_livefyre_comments($livefyre_supplied_js, $livefyre_account_num, $livefyre_custom_script_snippet, $livefyre_free_version_html, $livefyre_free_version_check) {
+  //echo '$livefyre_free_version_check ' . $livefyre_free_version_check;
   // Livefyres textfield for comments was getting a ridiculous amount of height.
   // Adding in the '!important' bit for now.
- if ($lf_free_version_check !== 1) {
-  return "$custom_script_snippet";
+ if ($livefyre_free_version_check !== 1) {
+  return "$livefyre_custom_script_snippet";
   }
   else {
-    return "$free_version_html";
+    return "$livefyre_free_version_html";
   }
 }
