@@ -9,14 +9,11 @@
  * Implementation of hook_uninstall().
  */
 function livefyre_uninstall() {
-  variable_del('livefyre_node_types');
-  variable_del('livefyre_acct_num');
   variable_del('livefyre_disabled');
-  variable_del('livefyre_weight');
-  variable_del('livefyre_location');
-  variable_del('livefyre_custom_css');
-  variable_del('livefyre_custom_js');
+  variable_del('livefyre_acct_num');
   variable_del('livefyre_supplied_js');
-  variable_del('custom_script_snippet');
-  variable_del('lf_free_version');
+  variable_del('livefyre_custom_script_snippet');
+  variable_del('livefyre_node_types');
+  variable_del('livefyre_location');
+  variable_del('livefyre_weight');
 }

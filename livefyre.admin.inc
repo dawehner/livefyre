@@ -36,10 +36,10 @@ function livefyre_admin_settings() {
     '#collapsed' => FALSE,
 
   );
-  $form['advanced_settings']['custom_script_snippet'] = array(
+  $form['advanced_settings']['livefyre_custom_script_snippet'] = array(
     '#type' => 'textarea',
     '#title' => t('Custom HTML Snippet'),
-    '#default_value' => variable_get('custom_script_snippet', ''),
+    '#default_value' => variable_get('livefyre_custom_script_snippet', ''),
     '#rows' => 5,
     '#wysiwyg' => FALSE,
     '#description' => t("Need tracking? Or other variables for your Livefyre comments? Put in your custom HTML and/or javascript here. For javascript make sure to include @<script> tags and be careful.  Messing this up could have bad effects on your site!", array('@<script>' => '<script>')),
