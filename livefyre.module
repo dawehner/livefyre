@@ -6,48 +6,42 @@
  */
 function livefyre_menu() {
   return array(
-      'admin/settings/livefyre' => array(
-        'title' => 'Livefyre',
-        'description' => t('Configure livefyre comments'),
-        'access arguments' => array('administer livefyre comments'),
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array('livefyre_admin_settings'),
-        'file' => 'livefyre.admin.inc',
-        ),
-      );
+    'admin/settings/livefyre' => array(
+      'title' => 'Livefyre',
+      'description' => t('Configure livefyre comments'),
+      'access arguments' => array('administer livefyre comments'),
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('livefyre_admin_settings'),
+      'file' => 'livefyre.admin.inc',
+      ),
+    );
 }
 
 /**
  * Implementation of hook_nodeapi
  */
-function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {//echo '<pre>' . print_r($node, TRUE) . '</pre>';
   switch ($op) {
     case 'view':
       $livefyre_node_types = variable_get('livefyre_node_types', array());
-      $livefyre_disabled = variable_get('livefyre_disabled', TRUE);
+      $livefyre_disabled = variable_get('livefyre_disabled', 0);
       $livefyre_account_num = variable_get('livefyre_acct_num', '');
       $livefyre_supplied_js =  variable_get('livefyre_supplied_js', '');
       $livefyre_custom_script_snippet =  variable_get('custom_script_snippet', '');
-      $livefyre_free_version_check = variable_get('lf_free_version', 1);
-      $livefyre_free_version_html = "<!-- START: Livefyre Embed -->
-<script type='text/javascript' src='$livefyre_supplied_js'></script>
-<!--<style type='text/css'>#lf_message_tbl{height: 100px !important;}</style>-->
-<script type='text/javascript'>
-    var fyre = LF({
-        site_id: $livefyre_account_num
-    });
-</script>
-<!-- END: Livefyre Embed -->";
+      $livefyre_div = "<div id='livefyre'></div>";
       if ($livefyre_disabled || empty($livefyre_account_num)) {
         return;
       }
       $livefyre_show_livefyre = count(array_keys($livefyre_node_types, $node->type))
                  && (!$teaser && $page && isset($node->body))
                  && (variable_get('livefyre_location', 'content_area') == 'content_area');
-                 echo $livefyre_show_livefyre;
       if ($livefyre_show_livefyre) {
+      drupal_add_js($livefyre_supplied_js, 'external', 'footer');
+      drupal_add_js("var fyre = LF({
+        site_id: $livefyre_account_num
+    })",'inline', 'footer');
         $node->content['livefyre'] = array(
-          '#value' => theme('livefyre_comments', $livefyre_supplied_js, $livefyre_account_num, $livefyre_custom_script_snippet, $livefyre_free_version_html, $livefyre_free_version_check),
+          '#value' => $livefyre_div . $livefyre_custom_script_snippet,
           '#weight' => variable_get('livefyre_weight', 50),
           );
       }
@@ -60,7 +54,7 @@ function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
  * Implementation of hook_perm
  */
 function livefyre_perm() {
-  return array('administer livefyre comments');
+  return array('administer livefyre comments', 'add livefyre html');
 }
 
 /**
@@ -70,10 +64,10 @@ function livefyre_block($op = 'list', $delta = 0, $edit = array()) {
   switch ($op) {
     case 'list':
       return array(
-          'livefyre_comments' => array(
-            'info'  => t('Livefyre Comments'),
-            'cache' => BLOCK_NO_CACHE),
-          );
+        'livefyre_comments' => array(
+          'info'  => t('Livefyre Comments'),
+          'cache' => BLOCK_NO_CACHE),
+           );
       break;
     
     case 'view':
@@ -86,51 +80,17 @@ function livefyre_block($op = 'list', $delta = 0, $edit = array()) {
           $livefyre_account_num = variable_get('livefyre_acct_num', '');
           $livefyre_supplied_js =  variable_get('livefyre_supplied_js', '');
           $livefyre_custom_script_snippet =  variable_get('custom_script_snippet', '');
-          $livefyre_free_version_check = variable_get('lf_free_version', 1);
-          $livefyre_free_version_html = "<!-- START: Livefyre Embed -->
-<style type='text/css'>#lf_message_tbl{height: 100px !important;}</style>
-<script type='text/javascript' src='$livefyre_supplied_js'></script>
-<script type='text/javascript'>
-    var fyre = LF({
+          $livefyre_div = "<div id='livefyre'></div>";
+          drupal_add_js($livefyre_supplied_js, 'external', 'footer');
+          drupal_add_js("var fyre = LF({
         site_id: $livefyre_account_num
-    });
-</script>
-<!-- END: Livefyre Embed -->";
+    })",'inline', 'footer');
           return array(
-                'content' => theme('livefyre_comments', $livefyre_supplied_js, $livefyre_account_num, $livefyre_custom_script_snippet, $livefyre_free_version_html, $livefyre_free_version_check),
+            'content' => $livefyre_div . $livefyre_custom_script_snippet,
             );
           }
           break;
 
     }
-  }
-}
-
-/**
- * Implementation of hook_theme
- */
-function livefyre_theme() {
-  return array(
-  'livefyre_comments' => array(
-    'arguments' => array(
-      'livefyre_supplied_js' => NULL,
-      'lf_account_num' => NULL,
-      'custom_script_snippet' => NULL,
-      'free_version_html' => NULL,
-      'lf_free_version_check' => NULL,
-      ),
-    )
-  );
-}
-
-function theme_livefyre_comments($livefyre_supplied_js, $livefyre_account_num, $livefyre_custom_script_snippet, $livefyre_free_version_html, $livefyre_free_version_check) {
-  //echo '$livefyre_free_version_check ' . $livefyre_free_version_check;
-  // Livefyres textfield for comments was getting a ridiculous amount of height.
-  // Adding in the '!important' bit for now.
- if ($livefyre_free_version_check !== 1) {
-  return "$livefyre_custom_script_snippet";
-  }
-  else {
-    return "$livefyre_free_version_html";
   }
 }
