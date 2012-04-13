@@ -20,7 +20,7 @@ function livefyre_menu() {
 /**
  * Implementation of hook_nodeapi
  */
-function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {//echo '<pre>' . print_r($node, TRUE) . '</pre>';
+function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
   switch ($op) {
     case 'view':
       $livefyre_node_types = variable_get('livefyre_node_types', array());
@@ -32,10 +32,10 @@ function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {//echo '<p
       if ($livefyre_disabled || empty($livefyre_account_num)) {
         return;
       }
-      $livefyre_show_livefyre = count(array_keys($livefyre_node_types, $node->type))
-                 && (!$teaser && $page && isset($node->body))
-                 && (variable_get('livefyre_location', 'content_area') == 'content_area');
-      if ($livefyre_show_livefyre) {
+      $livefyre_node_types = variable_get('livefyre_node_types', array());
+      if (!empty($livefyre_node_types[$node->type])
+            && (!$teaser && $page && isset($node->body))
+            && (variable_get('livefyre_location', 'content_area') == 'content_area')){
       drupal_add_js($livefyre_supplied_js, 'external', 'footer');
       drupal_add_js("var fyre = LF({
         site_id: $livefyre_account_num
@@ -46,7 +46,7 @@ function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {//echo '<p
           );
       }
       break;
-
+    
   }
 }
 

@@ -5,12 +5,13 @@
  * Menu callback; Displays the administration settings for Livefyre.
  */
 function livefyre_admin_settings() {
-  $form['lf_disabled'] = array(
+  $form = array();
+  $form['livefyre_disabled'] = array(
     '#type' => 'checkbox',
     '#title' => t('Disable Livefyre comments?'),
     '#default_value' => variable_get('livefyre_disabled', 0),
     '#description' => t('Need to kill the comments real quick-like? Prevent Livefyre comments from being displayed by checking this box.'),
-    );
+  );
   $form['livefyre_acct_num'] = array(
     '#type' => 'textfield',
     '#title' => t('Livefyre account number'),
@@ -25,14 +26,14 @@ function livefyre_admin_settings() {
     '#default_value' => variable_get('livefyre_supplied_js', ''),
     '#description' => t('Post the path to the script supplied by Livefyre.  According to the current Livefyre site, the current Livefyre javascript file is <em><strong>"http://zor.livefyre.com/wjs/v1.0/javascripts/livefyre_init.js"</em></strong> but this could change so feel free to enter something else if needed. Paths only. No quotation marks allowed.'),
   );
-  }  
+  }
+  
   if (user_access('add livefyre html')) {
   $form['advanced_settings'] = array(
     '#type' => 'fieldset',
     '#title' => 'Advanced Settings (Custom HTML, CSS, Javascript)',
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
-    '#disabled' => TRUE,
 
   );
   $form['advanced_settings']['custom_script_snippet'] = array(
@@ -42,19 +43,17 @@ function livefyre_admin_settings() {
     '#rows' => 5,
     '#wysiwyg' => FALSE,
     '#description' => t("Need tracking? Or other variables for your Livefyre comments? Put in your custom HTML and/or javascript here. For javascript make sure to include @<script> tags and be careful.  Messing this up could have bad effects on your site!", array('@<script>' => '<script>')),
-    '#disabled' => TRUE,
-
   );
   }
-  $form['node_types'] = array(
+  
+  $form['livefyre_node_types'] = array(
     '#type' => 'checkboxes',
-    '#options' => node_get_types('names'),
     '#default_value' => variable_get('livefyre_node_types', array()),
     '#title' => t('Show Livefyre Comments on these node Types'),
     '#description' => t('Display comments only on the selected node types'),
-    '#multiple' => TRUE,
+    '#options' => node_get_types('names'),
   );
-  $form['location'] = array(
+  $form['livefyre_location'] = array(
     '#type' => 'select',
     '#title' => t('Location'),
     '#description' => t('Display the livefyre comments in the given location. When "Block" is selected, the comments will appear in the <a href="@livefyre">Livefyre Comments block</a>.', array('@livefyre' => url('admin/build/block'))),
@@ -64,18 +63,14 @@ function livefyre_admin_settings() {
       'block' => t('Block'),
     ),
   );
-  $form['weight'] = array(
+  $form['livefyre_weight'] = array(
     '#type' => 'select',
     '#title' => t('Weight'),
     '#description' => t('When the comments are displayed in the content area, you can change the position at which they will be shown.'),
     '#default_value' => variable_get('livefyre_weight', 50),
     '#options' => drupal_map_assoc(array(-100, -50, -25, 0, 25, 50, 100)),
     );
-$form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save changes'),
-  );
-  return $form;
+  return system_settings_form($form);
 }
 
 function livefyre_admin_settings_validate($form, &$form_state) {
@@ -88,23 +83,4 @@ function livefyre_admin_settings_validate($form, &$form_state) {
   if (!preg_match("/com/", $pieces[2])  ||  !preg_match("/livefyre/", $pieces[1])){
   form_set_error('livefyre_supplied_js', t("Path to Livefyre javascript file must originate from Livefyre.com."));
   }
-}
-
-
-
-function livefyre_admin_settings_submit(&$form_state, $form) {
-  //$domain = parse_url($form_state['livefyre_supplied_js']['#value']);
-  //$pieces = explode('.', $domain['host']);
-  //drupal_set_message('<pre>' . print_r($pieces, TRUE) . '</pre>');
-  drupal_set_message(t("Your changes have been saved."));
-  foreach ($form_state['node_types']['#value'] as $key => $value) {
-    $lf_node_types[] = $key;
-  }
-  variable_set('livefyre_disabled', $form_state['lf_disabled']['#value']);
-  variable_set('livefyre_acct_num', $form_state['livefyre_acct_num']['#value']);
-  variable_set('livefyre_supplied_js', $form_state['livefyre_supplied_js']['#value']);
-  variable_set('custom_script_snippet', $form_state['advanced_settings']['custom_script_snippet']['#value']);
-  variable_set('livefyre_node_types', $lf_node_types);
-  variable_set('livefyre_location', $form_state['location']['#value']);
-  variable_set('livefyre_weight', $form_state['weight']['#value']);
 }
