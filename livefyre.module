@@ -7,7 +7,7 @@
  */
 
 /**
- * Implementation of hook_menu
+ * Implements hook_menu
  */
 function livefyre_menu() {
   return array(
@@ -23,7 +23,7 @@ function livefyre_menu() {
 }
 
 /**
- * Implementation of hook_nodeapi
+ * Implements hook_nodeapi
  */
 function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
   switch ($op) {
@@ -56,14 +56,14 @@ function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
 }
 
 /**
- * Implementation of hook_perm
+ * Implements hook_perm
  */
 function livefyre_perm() {
   return array('administer livefyre comments', 'add livefyre html');
 }
 
 /**
- * Implementation of hook_block
+ * Implements hook_block
  */
 function livefyre_block($op = 'list', $delta = 0, $edit = array()) {
   switch ($op) {

@@ -6,7 +6,7 @@
  */
 
 /**
- * Implementation of hook_uninstall().
+ * Implements hook_uninstall().
  */
 function livefyre_uninstall() {
   variable_del('livefyre_disabled');
