@@ -1,8 +1,6 @@
 The Livefyre module allows for Livefyre comments to be inserted into your page.
 Currently, they can be inserted into a node ('Content Area') or a Block ('Block').
 
-Note:  This module should be considered a beta since I still have some unanswered questions out to the fine folks at Livefyre.
-
 Installation
 ------------
 
