@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Display Livefyre comments.
+ *
+ */
 
 /**
  * Implementation of hook_menu
@@ -13,8 +18,8 @@ function livefyre_menu() {
       'page callback' => 'drupal_get_form',
       'page arguments' => array('livefyre_admin_settings'),
       'file' => 'livefyre.admin.inc',
-      ),
-    );
+    ),
+  );
 }
 
 /**
@@ -26,8 +31,8 @@ function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
       $livefyre_node_types = variable_get('livefyre_node_types', array());
       $livefyre_disabled = variable_get('livefyre_disabled', 0);
       $livefyre_account_num = variable_get('livefyre_acct_num', '');
-      $livefyre_supplied_js =  variable_get('livefyre_supplied_js', '');
-      $livefyre_custom_script_snippet =  variable_get('livefyre_custom_script_snippet', '');
+      $livefyre_supplied_js = variable_get('livefyre_supplied_js', '');
+      $livefyre_custom_script_snippet = variable_get('livefyre_custom_script_snippet', '');
       $livefyre_div = "<div id='livefyre'></div>";
       if ($livefyre_disabled || empty($livefyre_account_num)) {
         return;
@@ -35,18 +40,18 @@ function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
       $livefyre_node_types = variable_get('livefyre_node_types', array());
       if (!empty($livefyre_node_types[$node->type])
             && (!$teaser && $page && isset($node->body))
-            && (variable_get('livefyre_location', 'content_area') == 'content_area')){
-      drupal_add_js($livefyre_supplied_js, 'external', 'footer');
-      drupal_add_js("var fyre = LF({
+            && (variable_get('livefyre_location', 'content_area') == 'content_area')) {
+        drupal_add_js($livefyre_supplied_js, 'external', 'footer');
+        drupal_add_js("var fyre = LF({
         site_id: $livefyre_account_num
-    })",'inline', 'footer');
+    })", 'inline', 'footer');
         $node->content['livefyre'] = array(
           '#value' => $livefyre_div . $livefyre_custom_script_snippet,
           '#weight' => variable_get('livefyre_weight', 50),
-          );
+        );
       }
       break;
-    
+
   }
 }
 
@@ -67,30 +72,29 @@ function livefyre_block($op = 'list', $delta = 0, $edit = array()) {
         'livefyre_comments' => array(
           'info'  => t('Livefyre Comments'),
           'cache' => BLOCK_NO_CACHE),
-           );
+      );
       break;
-    
+
     case 'view':
       switch ($delta) {
         case 'livefyre_comments':
           $livefyre_disabled = variable_get('livefyre_disabled', TRUE);
-          $lf_location = variable_get('livefyre_location', 'content_area');
-          
-          if (!$livefyre_disabled && $lf_location == 'block') {
-          $livefyre_account_num = variable_get('livefyre_acct_num', '');
-          $livefyre_supplied_js =  variable_get('livefyre_supplied_js', '');
-          $livefyre_custom_script_snippet =  variable_get('livefyre_custom_script_snippet', '');
-          $livefyre_div = "<div id='livefyre'></div>";
-          drupal_add_js($livefyre_supplied_js, 'external', 'footer');
-          drupal_add_js("var fyre = LF({
+          $livefyre_location = variable_get('livefyre_location', 'content_area');
+          if (!$livefyre_disabled && $livefyre_location == 'block') {
+            $livefyre_account_num = variable_get('livefyre_acct_num', '');
+            $livefyre_supplied_js = variable_get('livefyre_supplied_js', '');
+            $livefyre_custom_script_snippet = variable_get('livefyre_custom_script_snippet', '');
+            $livefyre_div = "<div id='livefyre'></div>";
+            drupal_add_js($livefyre_supplied_js, 'external', 'footer');
+            drupal_add_js("var fyre = LF({
         site_id: $livefyre_account_num
-    })",'inline', 'footer');
-          return array(
-            'content' => $livefyre_div . $livefyre_custom_script_snippet,
+    })", 'inline', 'footer');
+            return array(
+              'content' => $livefyre_div . $livefyre_custom_script_snippet,
             );
           }
           break;
 
-    }
+      }
   }
 }

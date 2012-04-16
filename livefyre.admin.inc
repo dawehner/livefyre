@@ -21,34 +21,30 @@ function livefyre_admin_settings() {
     '#default_value' => variable_get('livefyre_acct_num', ''),
     '#description' => t('This is the Livefyre account number, unique to each account.'),
   );
-  
   if (user_access('add livefyre html')) {
-  $form['livefyre_supplied_js'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Path to script supplied by Livefyre'),
-    '#default_value' => variable_get('livefyre_supplied_js', ''),
-    '#description' => t('Post the path to the script supplied by Livefyre.  According to the current Livefyre site, the current Livefyre javascript file is <em><strong>"http://zor.livefyre.com/wjs/v1.0/javascripts/livefyre_init.js"</em></strong> but this could change so feel free to enter something else if needed. Paths only. No quotation marks allowed.'),
-  );
+    $form['livefyre_supplied_js'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Path to script supplied by Livefyre'),
+      '#default_value' => variable_get('livefyre_supplied_js', ''),
+      '#description' => t('Post the path to the script supplied by Livefyre.  According to the current Livefyre site, the current Livefyre javascript file is <em><strong>"http://zor.livefyre.com/wjs/v1.0/javascripts/livefyre_init.js"</em></strong> but this could change so feel free to enter something else if needed. Paths only. No quotation marks allowed.'),
+    );
   }
-  
   if (user_access('add livefyre html')) {
-  $form['advanced_settings'] = array(
-    '#type' => 'fieldset',
-    '#title' => 'Advanced Settings (Custom HTML, CSS, Javascript)',
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-
-  );
-  $form['advanced_settings']['livefyre_custom_script_snippet'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Custom HTML Snippet'),
-    '#default_value' => variable_get('livefyre_custom_script_snippet', ''),
-    '#rows' => 5,
-    '#wysiwyg' => FALSE,
-    '#description' => t("Need tracking? Or other variables for your Livefyre comments? Put in your custom HTML and/or javascript here. For javascript make sure to include @<script> tags and be careful.  Messing this up could have bad effects on your site!", array('@<script>' => '<script>')),
-  );
+    $form['advanced_settings'] = array(
+      '#type' => 'fieldset',
+      '#title' => 'Advanced Settings (Custom HTML, CSS, Javascript)',
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    );
+    $form['advanced_settings']['livefyre_custom_script_snippet'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Custom HTML Snippet'),
+      '#default_value' => variable_get('livefyre_custom_script_snippet', ''),
+      '#rows' => 5,
+      '#wysiwyg' => FALSE,
+      '#description' => t("Need tracking? Or other variables for your Livefyre comments? Put in your custom HTML and/or javascript here. For javascript make sure to include @<script> tags and be careful.  Messing this up could have bad effects on your site!", array('@<script>' => '<script>')),
+    );
   }
-  
   $form['livefyre_node_types'] = array(
     '#type' => 'checkboxes',
     '#default_value' => variable_get('livefyre_node_types', array()),
@@ -72,18 +68,21 @@ function livefyre_admin_settings() {
     '#description' => t('When the comments are displayed in the content area, you can change the position at which they will be shown.'),
     '#default_value' => variable_get('livefyre_weight', 50),
     '#options' => drupal_map_assoc(array(-100, -50, -25, 0, 25, 50, 100)),
-    );
+  );
   return system_settings_form($form);
 }
 
+/**
+ * Checks for correct permissions, values and file origin.
+ */
 function livefyre_admin_settings_validate($form, &$form_state) {
-  if (!is_numeric($form_state['values']['livefyre_acct_num'])){
+  if (!is_numeric($form_state['values']['livefyre_acct_num'])) {
     form_set_error('livefyre_acct_num', t("Livefyre account number should be a number."));
   }
-  //  Make sure the js file originates from Livefyre.com.
+  // Make sure the js file originates from Livefyre.com.
   $domain = parse_url($form_state['values']['livefyre_supplied_js']);
   $pieces = explode('.', $domain['host']);
-  if (!preg_match("/com/", $pieces[2])  ||  !preg_match("/livefyre/", $pieces[1])){
-  form_set_error('livefyre_supplied_js', t("Path to Livefyre javascript file must originate from Livefyre.com."));
+  if (!preg_match("/com/", $pieces[2])  ||  !preg_match("/livefyre/", $pieces[1])) {
+    form_set_error('livefyre_supplied_js', t("Path to Livefyre javascript file must originate from Livefyre.com."));
   }
 }
