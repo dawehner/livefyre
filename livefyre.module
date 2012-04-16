@@ -5,6 +5,7 @@
  * Display Livefyre comments.
  *
  */
+
 /**
  * Implements hook_menu().
  */
@@ -12,7 +13,7 @@ function livefyre_menu() {
   return array(
     'admin/settings/livefyre' => array(
       'title' => 'Livefyre',
-      'description' => t('Configure livefyre comments'),
+      'description' => 'Configure livefyre comments',
       'access arguments' => array('administer livefyre comments'),
       'page callback' => 'drupal_get_form',
       'page arguments' => array('livefyre_admin_settings'),
