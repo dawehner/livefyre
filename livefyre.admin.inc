@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @file
+ * Administrative page callbacks for the Livefyre module.
+ */
 
 /**
  * Menu callback; Displays the administration settings for Livefyre.
