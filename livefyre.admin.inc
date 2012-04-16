@@ -45,13 +45,6 @@ function livefyre_admin_settings() {
       '#description' => t("Need tracking? Or other variables for your Livefyre comments? Put in your custom HTML and/or javascript here. For javascript make sure to include @<script> tags and be careful.  Messing this up could have bad effects on your site!", array('@<script>' => '<script>')),
     );
   }
-  $form['livefyre_node_types'] = array(
-    '#type' => 'checkboxes',
-    '#default_value' => variable_get('livefyre_node_types', array()),
-    '#title' => t('Show Livefyre Comments on these node Types'),
-    '#description' => t('Display comments only on the selected node types'),
-    '#options' => node_get_types('names'),
-  );
   $form['livefyre_location'] = array(
     '#type' => 'select',
     '#title' => t('Location'),
@@ -68,6 +61,13 @@ function livefyre_admin_settings() {
     '#description' => t('When the comments are displayed in the content area, you can change the position at which they will be shown.'),
     '#default_value' => variable_get('livefyre_weight', 50),
     '#options' => drupal_map_assoc(array(-100, -50, -25, 0, 25, 50, 100)),
+  );
+  $form['livefyre_node_types'] = array(
+    '#type' => 'checkboxes',
+    '#default_value' => variable_get('livefyre_node_types', array()),
+    '#title' => t('Show Livefyre Comments on these node Types'),
+    '#description' => t('Display comments only on the selected node types'),
+    '#options' => node_get_types('names'),
   );
   return system_settings_form($form);
 }
