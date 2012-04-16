@@ -27,7 +27,7 @@ function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
       $livefyre_disabled = variable_get('livefyre_disabled', 0);
       $livefyre_account_num = variable_get('livefyre_acct_num', '');
       $livefyre_supplied_js =  variable_get('livefyre_supplied_js', '');
-      $livefyre_custom_script_snippet =  variable_get('custom_script_snippet', '');
+      $livefyre_custom_script_snippet =  variable_get('livefyre_custom_script_snippet', '');
       $livefyre_div = "<div id='livefyre'></div>";
       if ($livefyre_disabled || empty($livefyre_account_num)) {
         return;
@@ -79,7 +79,7 @@ function livefyre_block($op = 'list', $delta = 0, $edit = array()) {
           if (!$livefyre_disabled && $lf_location == 'block') {
           $livefyre_account_num = variable_get('livefyre_acct_num', '');
           $livefyre_supplied_js =  variable_get('livefyre_supplied_js', '');
-          $livefyre_custom_script_snippet =  variable_get('custom_script_snippet', '');
+          $livefyre_custom_script_snippet =  variable_get('livefyre_custom_script_snippet', '');
           $livefyre_div = "<div id='livefyre'></div>";
           drupal_add_js($livefyre_supplied_js, 'external', 'footer');
           drupal_add_js("var fyre = LF({
