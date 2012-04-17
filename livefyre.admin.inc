@@ -7,12 +7,12 @@
 /**
  * Menu callback; Displays the administration settings for Livefyre.
  */
-function livefyre_admin_settings() {
+function livefyre_admin_settings_form() {
   $form = array();
   $form['livefyre_disabled'] = array(
     '#type' => 'checkbox',
     '#title' => t('Disable Livefyre comments?'),
-    '#default_value' => variable_get('livefyre_disabled', 0),
+    '#default_value' => variable_get('livefyre_disabled', FALSE),
     '#description' => t('Need to kill the comments real quick-like? Prevent Livefyre comments from being displayed by checking this box.'),
   );
   $form['livefyre_acct_num'] = array(
@@ -26,13 +26,13 @@ function livefyre_admin_settings() {
       '#type' => 'textfield',
       '#title' => t('Path to script supplied by Livefyre'),
       '#default_value' => variable_get('livefyre_supplied_js', ''),
-      '#description' => t('Post the path to the script supplied by Livefyre.  According to the current Livefyre site, the current Livefyre javascript file is <em><strong>"http://zor.livefyre.com/wjs/v1.0/javascripts/livefyre_init.js"</em></strong> but this could change so feel free to enter something else if needed. Paths only. No quotation marks allowed.'),
+      '#description' => t("Post the path to the script supplied by Livefyre.  According to the current Livefyre site, the current Livefyre javascript file is %url but this could change so feel free to enter something else if needed. Paths only. No quotation marks allowed.", array('%url' => 'http://zor.livefyre.com/wjs/v1.0/javascripts/livefyre_init.js')),
     );
   }
   if (user_access('add livefyre html')) {
     $form['advanced_settings'] = array(
       '#type' => 'fieldset',
-      '#title' => 'Advanced Settings (Custom HTML, CSS, Javascript)',
+      '#title' => t('Advanced Settings: Custom HTML, CSS, Javascript'),
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
     );
@@ -75,7 +75,7 @@ function livefyre_admin_settings() {
 /**
  * Checks for correct permissions, values and file origin.
  */
-function livefyre_admin_settings_validate($form, &$form_state) {
+function livefyre_admin_settings_form_validate($form, &$form_state) {
   if (!is_numeric($form_state['values']['livefyre_acct_num'])) {
     form_set_error('livefyre_acct_num', t("Livefyre account number should be a number."));
   }

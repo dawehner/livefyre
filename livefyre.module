@@ -15,7 +15,7 @@ function livefyre_menu() {
       'description' => 'Configure livefyre comments',
       'access arguments' => array('administer livefyre comments'),
       'page callback' => 'drupal_get_form',
-      'page arguments' => array('livefyre_admin_settings'),
+      'page arguments' => array('livefyre_admin_settings_form'),
       'file' => 'livefyre.admin.inc',
     ),
   );
@@ -28,7 +28,7 @@ function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
   switch ($op) {
     case 'view':
       $livefyre_node_types = variable_get('livefyre_node_types', array());
-      $livefyre_disabled = variable_get('livefyre_disabled', 0);
+      $livefyre_disabled = variable_get('livefyre_disabled', FALSE);
       $livefyre_account_num = variable_get('livefyre_acct_num', '');
       $livefyre_supplied_js = variable_get('livefyre_supplied_js', '');
       $livefyre_custom_script_snippet = variable_get('livefyre_custom_script_snippet', '');
@@ -41,8 +41,9 @@ function livefyre_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
             && (!$teaser && $page && isset($node->body))
             && (variable_get('livefyre_location', 'content_area') == 'content_area')) {
         drupal_add_js($livefyre_supplied_js, 'external', 'footer');
+        drupal_add_js(array('livefyre' => array('account_num' => $livefyre_account_num)), 'setting');
         drupal_add_js("var fyre = LF({
-        site_id: $livefyre_account_num
+        site_id: Drupal.settings.livefyre.account_num
     })", 'inline', 'footer');
         $node->content['livefyre'] = array(
           '#value' => $livefyre_div . $livefyre_custom_script_snippet,
@@ -77,7 +78,7 @@ function livefyre_block($op = 'list', $delta = 0, $edit = array()) {
     case 'view':
       switch ($delta) {
         case 'livefyre_comments':
-          $livefyre_disabled = variable_get('livefyre_disabled', TRUE);
+          $livefyre_disabled = variable_get('livefyre_disabled', FALSE);
           $livefyre_location = variable_get('livefyre_location', 'content_area');
           if (!$livefyre_disabled && $livefyre_location == 'block') {
             $livefyre_account_num = variable_get('livefyre_acct_num', '');
@@ -85,8 +86,9 @@ function livefyre_block($op = 'list', $delta = 0, $edit = array()) {
             $livefyre_custom_script_snippet = variable_get('livefyre_custom_script_snippet', '');
             $livefyre_div = "<div id='livefyre'></div>";
             drupal_add_js($livefyre_supplied_js, 'external', 'footer');
+            drupal_add_js(array('livefyre' => array('account_num' => $livefyre_account_num)), 'setting');
             drupal_add_js("var fyre = LF({
-        site_id: $livefyre_account_num
+        site_id: Drupal.settings.livefyre.account_num
     })", 'inline', 'footer');
             return array(
               'content' => $livefyre_div . $livefyre_custom_script_snippet,

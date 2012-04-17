@@ -1,4 +1,3 @@
 name = Livefyre
-description = Livefyre comments
-package = Other
+description = Embed Livefyre comments via javascript on your Drupal site.
 core = 6.x
