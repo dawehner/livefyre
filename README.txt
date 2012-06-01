@@ -2,9 +2,8 @@ The Livefyre module allows for Livefyre comments to be inserted into your page.
 Currently, they can be inserted into a node ('Content Area') or a Block
 ('Block').
 
-Livefyre is the best real-time conversation platform on the web. Designed for
-the social web, Livefyre replaces static comment sections with dynamic,
-real-time conversations that empower users and help build hyper-active
+Designed for the social web, Livefyre replaces static comment sections with
+dynamic, real-time conversations that empower users and help build hyper-active
 communities.
 
 Some Livefyre Features
@@ -34,11 +33,11 @@ Some Livefyre Features
     -LinkBack to latest posts
 
 Simple Installation
-1. Download and install the Livefyre module into your respective sites directory
+1. Download and install the Livefyre module into your modules directory
 (sites/all/modules).
-2. Enable the module in admin/build/modules
+2. Enable the module at admin/modules
 3. Register your site at http://livefyre.com
-4. Visit admin/settings/livefyre and set your configuration options depending on
+4. Visit admin/config/livefyre and set your configuration options depending on
 what you registered with on Livefyre.
 
 This module inserts Livefyre comments into your site via javascript. Currently,

@@ -7,7 +7,7 @@
 /**
  * Menu callback; Displays the administration settings for Livefyre.
  */
-function livefyre_admin_settings_form() {
+function livefyre_admin_settings_form($form, &$form_state) {
   $form = array();
   $form['livefyre_disabled'] = array(
     '#type' => 'checkbox',
@@ -48,7 +48,7 @@ function livefyre_admin_settings_form() {
   $form['livefyre_location'] = array(
     '#type' => 'select',
     '#title' => t('Location'),
-    '#description' => t('Display the livefyre comments in the given location. When "Block" is selected, the comments will appear in the <a href="@livefyre">Livefyre Comments block</a>.', array('@livefyre' => url('admin/build/block'))),
+    '#description' => t('Display the livefyre comments in the given location. When "Block" is selected, the comments will appear in the <a href="@livefyre">Livefyre Comments block</a>.', array('@livefyre' => url('admin/structure/block'))),
     '#default_value' => variable_get('livefyre_location', 'content_area'),
     '#options' => array(
       'content_area' => t('Content Area'),
@@ -67,7 +67,7 @@ function livefyre_admin_settings_form() {
     '#default_value' => variable_get('livefyre_node_types', array()),
     '#title' => t('Show Livefyre Comments on these node Types'),
     '#description' => t('Display comments only on the selected node types'),
-    '#options' => node_get_types('names'),
+    '#options' => node_type_get_names(),
   );
   return system_settings_form($form);
 }
@@ -82,7 +82,7 @@ function livefyre_admin_settings_form_validate($form, &$form_state) {
   // Make sure the js file originates from Livefyre.com.
   $domain = parse_url($form_state['values']['livefyre_supplied_js']);
   $pieces = explode('.', $domain['host']);
-  if (!preg_match("/^com$/", $pieces[2])  ||  !preg_match("/^livefyre$/", $pieces[1])) {
+  if (!preg_match("/^com$/", $pieces[2])   ||   !preg_match("/^livefyre$/", $pieces[1])) {
     form_set_error('livefyre_supplied_js', t("Path to Livefyre javascript file must originate from Livefyre.com."));
   }
 }
