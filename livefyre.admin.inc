@@ -32,9 +32,21 @@ function livefyre_admin_settings_form($form, &$form_state) {
   if (user_access('add livefyre html')) {
     $form['advanced_settings'] = array(
       '#type' => 'fieldset',
-      '#title' => t('Advanced Settings: Custom HTML, CSS, Javascript'),
+      '#title' => t('Optional Advanced Settings: Custom HTML, CSS, Javascript'),
       '#collapsible' => TRUE,
-      '#collapsed' => FALSE,
+      '#collapsed' => TRUE,
+    );
+    $form['advanced_settings']['livefyre_parent_div'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Nest the Livefyre div within my custom div (Optional)'),
+      '#default_value' =>  variable_get('livefyre_parent_div', ''),
+      '#description' => t('By default, the Livefyre Comment javascript inserts a div with an id of "livefyre" into your page.  It looks like this:<br /><br /> <code>@<div></code><br /><br />For display/theming purposes, it\'s possible to surround the @<div> with your own custom div.  Please enter its ID here and note that <strong>only a div ID can be used.</strong>  For example, if you wanted to nest the @<div> within a div having the ID of "my_comment_div", then enter "my_comment_div" (without the quotes, obviously) into the textfield above.  <br /><br />The resulting html would look like this: <br /><br /><code> @<div2></code>', array('@<div>' => '<div id="livefyre"></div>', '@<div2>' => '<div id="my_comment_div"><div id="livefyre"></div></div>')),
+    );
+    $form['advanced_settings']['livefyre_custom_instantiate_lf'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('<strong>Are you using a custom script that instantiates Livefyre\'s LF function?</strong><br />If so, check this box.  If not, leave it blank.'),
+      '#default_value' => variable_get('livefyre_custom_instantiate_lf', ''),
+      '#description' => t("It's possible to instantiate Livefyre's LF function with your own custom javascript.  If you are doing this, check this box.  This will ensure that the LF function does not get called twice.  If you will be instantiating the LF function with your own custom script be sure to include it in the \"Custom HTML Snippet\" box below."),
     );
     $form['advanced_settings']['livefyre_custom_script_snippet'] = array(
       '#type' => 'textarea',
