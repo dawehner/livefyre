@@ -60,11 +60,16 @@ function livefyre_admin_settings_form($form, &$form_state) {
   $form['livefyre_location'] = array(
     '#type' => 'select',
     '#title' => t('Location'),
-    '#description' => t('Display the livefyre comments in the given location. When "Block" is selected, the comments will appear in the <a href="@livefyre">Livefyre Comments block</a>.', array('@livefyre' => url('admin/structure/block'))),
+    '#description' => t('Display the Livefyre Comments in the given location. If you select "Content Area" the comments will show up on a node view.  Choose what types of nodes below. When "Block" is selected, the comments will appear in the Livefyre Comments block on <a href="@livefyre">the "Blocks" page</a>.', array('@livefyre' => url('admin/structure/block'))),
     '#default_value' => variable_get('livefyre_location', 'content_area'),
     '#options' => array(
       'content_area' => t('Content Area'),
       'block' => t('Block'),
+    ),
+    '#attached' => array(
+      'js' => array(
+        'vertical-tabs' => drupal_get_path('module', 'livefyre') . "/js/livefyre_hide_and_show.js"
+      ),
     ),
   );
   $form['livefyre_weight'] = array(

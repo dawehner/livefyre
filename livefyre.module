@@ -107,7 +107,6 @@ function livefyre_block_view($delta) {
         $livefyre_custom_instantiate_lf = variable_get('livefyre_custom_instantiate_lf', FALSE);
         $livefyre_parent_div = variable_get('livefyre_parent_div', '');
         $livefyre_parent_div_html = '<div id="' . $livefyre_parent_div . '">';
-        drupal_add_js($livefyre_supplied_js, array('type' => 'external', 'scope' => 'footer'));
         drupal_add_js(array('livefyre' => array('account_num' => $livefyre_account_num)), array('type' => 'setting', 'scope' => JS_DEFAULT));
         if (!$livefyre_custom_instantiate_lf) {
           drupal_add_js("var fyre = LF({
