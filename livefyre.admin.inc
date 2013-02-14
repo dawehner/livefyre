@@ -98,8 +98,8 @@ function livefyre_admin_settings_form_validate($form, &$form_state) {
   }
   // Make sure the js file originates from Livefyre.com.
   $domain = parse_url($form_state['values']['livefyre_supplied_js']);
-  $pieces = explode('.', $domain['host']);
-  if (!preg_match("/^com$/", $pieces[2])   ||   !preg_match("/^livefyre$/", $pieces[1])) {
+  $pieces = array_reverse(explode('.', $domain['host']));
+  if (!preg_match("/^com$/", $pieces[0])   ||   !preg_match("/^livefyre$/", $pieces[1])) {
     form_set_error('livefyre_supplied_js', t("Path to Livefyre javascript file must originate from Livefyre.com."));
   }
 }
