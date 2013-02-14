@@ -17,7 +17,7 @@ function livefyre_admin_settings_form($form, &$form_state) {
   );
   $form['livefyre_acct_num'] = array(
     '#type' => 'textfield',
-    '#title' => t('Livefyre account number'),
+    '#title' => t('Site ID'),
     '#default_value' => variable_get('livefyre_acct_num', ''),
     '#description' => t('This is the Livefyre account number, unique to each account.'),
   );
@@ -26,7 +26,7 @@ function livefyre_admin_settings_form($form, &$form_state) {
       '#type' => 'textfield',
       '#title' => t('Path to script supplied by Livefyre'),
       '#default_value' => variable_get('livefyre_supplied_js', ''),
-      '#description' => t("Post the path to the script supplied by Livefyre.  According to the current Livefyre site, the current Livefyre javascript file is %url but this could change so feel free to enter something else if needed. Paths only. No quotation marks allowed.", array('%url' => 'http://zor.livefyre.com/wjs/v1.0/javascripts/livefyre_init.js')),
+      '#description' => t("Post the path to the script supplied by Livefyre. Paths only. No quotation marks allowed. <br /> <br /> According to the current Livefyre site, the current Livefyre javascript file references Version 3:<br /><strong>%url</strong> <br /> <br /> For older installs using v1,<br /> <strong>%urlv1</strong><br />...should still work fine.  <br /><br /><strong>Site Keys are not needed in the Drupal install at this time.</strong><br /><br />Please note: <br />I'm not affiliated with Livefyre so I rely on input from them and/or the community to update this module so these paths could change.", array('%url' => 'http://zor.livefyre.com/wjs/v3.0/javascripts/livefyre.js', '%urlv1' => 'http://zor.livefyre.com/wjs/v1.0/javascripts/livefyre_init.js')),
     );
   }
   if (user_access('add livefyre html')) {
