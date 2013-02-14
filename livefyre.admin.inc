@@ -26,7 +26,7 @@ function livefyre_admin_settings_form($form, &$form_state) {
       '#type' => 'textfield',
       '#title' => t('Path to script supplied by Livefyre'),
       '#default_value' => variable_get('livefyre_supplied_js', ''),
-      '#description' => t("Post the path to the script supplied by Livefyre. Paths only. No quotation marks allowed. <br /> <br /> According to the current Livefyre site, the current Livefyre javascript file references Version 3:<br /><strong>%url</strong> <br /> <br /> For older installs using v1,<br /> <strong>%urlv1</strong><br />...should still work fine.  <br /><br /><strong>Site Keys are not needed in the Drupal install at this time.</strong><br /><br />Please note: <br />I'm not affiliated with Livefyre so I rely on input from them and/or the community to update this module so these paths could change.", array('%url' => 'http://zor.livefyre.com/wjs/v3.0/javascripts/livefyre.js', '%urlv1' => 'http://zor.livefyre.com/wjs/v1.0/javascripts/livefyre_init.js')),
+      '#description' => t("Post the path to the script supplied by Livefyre. Paths only. No quotation marks or spaces allowed. <br /> <br /> According to the current Livefyre site, the current Livefyre javascript file references Version 3:<br /><strong>%url</strong><br /><br />For older installs using v1,<br /><strong>%urlv1</strong><br />...should still work fine.  <br /><br /><strong>Site Keys are not needed in the Drupal install at this time.</strong><br /><br />Please note: <br />I'm not affiliated with Livefyre so I rely on input from them and/or the community to update this module so these paths could change.", array('%url' => 'http://zor.livefyre.com/wjs/v3.0/javascripts/livefyre.js', '%urlv1' => 'http://zor.livefyre.com/wjs/v1.0/javascripts/livefyre_init.js')),
     );
   }
   if (user_access('add livefyre html')) {
@@ -44,7 +44,7 @@ function livefyre_admin_settings_form($form, &$form_state) {
     );
     $form['advanced_settings']['livefyre_custom_instantiate_lf'] = array(
       '#type' => 'checkbox',
-      '#title' => t('<strong>Are you using a custom script that instantiates Livefyre\'s LF function?</strong><br />If so, check this box.  If not, leave it blank.'),
+      '#title' => t('<strong>v1.0 USERS ONLY:  Are you using a custom script that instantiates Livefyre\'s LF function?</strong><br />If so, check this box.  If not, leave it blank.'),
       '#default_value' => variable_get('livefyre_custom_instantiate_lf', ''),
       '#description' => t("It's possible to instantiate Livefyre's LF function with your own custom javascript.  If you are doing this, check this box.  This will ensure that the LF function does not get called twice.  If you will be instantiating the LF function with your own custom script be sure to include it in the \"Custom HTML Snippet\" box below."),
     );
