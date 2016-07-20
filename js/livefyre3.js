@@ -4,7 +4,7 @@
       var articleId = fyre.conv.load.makeArticleId(null);
       fyre.conv.load({}, [{
         el: 'livefyre-comments',
-        network: 'livefyre.com',
+        network: drupalsettings.livefyre.network,
         siteId: drupalSettings.livefyre.account_num,
         articleId: articleId,
         signed: false,

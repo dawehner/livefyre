@@ -21,3 +21,5 @@ livefyre.settings:
       type: string
     weight:
       type: integer
+    network:
+      type: string

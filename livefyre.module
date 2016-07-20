@@ -13,6 +13,6 @@ use Drupal\livefyre\LivefyreNodeView;
  * Implements hook_node_view().
  */
 function livefyre_node_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
-  $node_view = new LivefyreNodeView();
+  $node_view = new LivefyreNodeView(\Drupal::configFactory());
   $build += $node_view->view($entity, $view_mode);
 }

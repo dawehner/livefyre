@@ -1,5 +1,6 @@
 disabled: false
 acct_num: ''
+network: 'livefyre.com'
 supplied_js: ''
 parent_div: ''
 custom_instantiate_lf: ''
