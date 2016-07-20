@@ -1,0 +1,4 @@
+livefyre.settings:
+  title: Livefyre
+  parent: system.admin_config_media
+  route_name: livefyre.settings

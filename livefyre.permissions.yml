@@ -1,0 +1,7 @@
+administer livefyre comments:
+  title: Administer Livefyre Comments
+  description: Allow a user to administer Livefyre Comments
+
+add livefyre html:
+  title: Add Livefyre HTML
+  description: Allow a user to add "extra" html, js and/or css which doesn\'t have to originate from Livefyre

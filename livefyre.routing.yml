@@ -1,0 +1,7 @@
+livefyre.settings:
+  path: '/admin/config/media/livefyre'
+  defaults:
+    _title: Livefyre
+    _form: \Drupal\livefyre\Form\LivefyreSettingsForm
+  requirements:
+    _permission: 'administer livefyre comments'
