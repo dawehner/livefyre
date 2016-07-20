@@ -3,10 +3,36 @@
 namespace Drupal\livefyre;
 
 use Drupal\Core\Config\Config;
+use Drupal\Core\Config\ConfigFactory;
 use Drupal\node\NodeInterface;
 
 class LivefyreNodeView {
 
+  /**
+   * The config of the livefyre module.
+   *
+   * @var \Drupal\Core\Config\Config
+   */
+  protected $config;
+
+  /**
+   * Creates a new LivefyreNodeView instance.
+   *
+   * @param \Drupal\Core\Config\ConfigFactory $configFactory
+   *   The config factory.
+   */
+  public function __construct(ConfigFactory $configFactory) {
+    $this->config = $configFactory->get('livefyre.settings');
+  }
+
+  /**
+   * Checks whether livefyre is enabled in general.
+   *
+   * @param \Drupal\Core\Config\Config $config
+   *   The config.
+   *
+   * @return bool
+   */
   protected function isEnabled(Config $config) {
     return !$config->get('disabled') && !empty($config->get('acct_num'));
   }
@@ -16,12 +42,18 @@ class LivefyreNodeView {
   }
 
   /**
+   * Returns the render array for version3 of livefyre.
    *
    * @param \Drupal\node\NodeInterface $node
-   * @param $view_mode
-   * @param \Drupal\Core\Config\Config $config
+   *   The current viewed node.
+   * @param string $view_mode
+   *   The view mode.
    *
-   * @return array
+   * @param \Drupal\Core\Config\Config $config
+   *   The lyfefire settings.
+   *
+   * @return array The render array.
+   * The render array.
    */
   protected function version3Output(NodeInterface $node, $view_mode, Config $config) {
     $livefyre_div = '<div id="livefyre-comments"></div>';
