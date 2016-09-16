@@ -1,0 +1,6 @@
+{
+    "name": "drupal/lifefyre",
+    "description": "Provides a lifefyre embed integration",
+    "type": "drupal-module",
+    "license": "GPL-2.0+"
+}
