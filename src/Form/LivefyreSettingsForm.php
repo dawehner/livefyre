@@ -39,11 +39,29 @@ class LivefyreSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('disabled'),
       '#description' => $this->t('Need to kill the comments real quick-like? Prevent Livefyre comments from being displayed by checking this box.'),
     ];
-    $form['acct_num'] = [
+    $form['site_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Site ID'),
-      '#default_value' => $config->get('acct_num'),
+      '#default_value' => $config->get('site_id'),
       '#description' => $this->t('This is the Livefyre account number, unique to each account.'),
+    ];
+    $form['site_key'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Site Key'),
+      '#default_value' => $config->get('site_key'),
+      '#description' => $this->t('This is the Livefyre site key'),
+    ];
+    $form['network'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Network'),
+      '#default_value' => $config->get('network'),
+      '#description' => $this->t('This is the Livefyre network'),
+    ];
+    $form['network_key'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Network key'),
+      '#default_value' => $config->get('network_key'),
+      '#description' => $this->t('This is the Livefyre network key.'),
     ];
     if ($this->currentUser()->hasPermission('add livefyre html')) {
       $form['supplied_js'] = [
@@ -122,8 +140,8 @@ class LivefyreSettingsForm extends ConfigFormBase {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
 
-    if (!is_numeric($form_state->getValue('acct_num'))) {
-      $form_state->setErrorByName('acct_num', $this->t('Livefyre account number should be a number.'));
+    if (!is_numeric($form_state->getValue('site_id'))) {
+      $form_state->setErrorByName('site_id', $this->t('Livefyre site ID should be a number.'));
     }
     // Make sure the js file originates from Livefyre.com.
     $domain = parse_url($form_state->getValue('supplied_js'));
@@ -142,7 +160,10 @@ class LivefyreSettingsForm extends ConfigFormBase {
     $config = $this->config('livefyre.settings');
 
     $config->set('disabled', $form_state->getValue('disabled'));
-    $config->set('acct_num', $form_state->getValue('acct_num'));
+    $config->set('site_id', $form_state->getValue('site_id'));
+    $config->set('site_key', $form_state->getValue('site_key'));
+    $config->set('network', $form_state->getValue('network'));
+    $config->set('network_key', $form_state->getValue('network_key'));
     $config->set('supplied_js', $form_state->getValue('supplied_js'));
     $config->set('parent_div', $form_state->getValue('parent_div'));
     $config->set('custom_instantiate_lf', $form_state->getValue('custom_instantiate_lf'));

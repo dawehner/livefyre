@@ -1,6 +1,8 @@
 disabled: false
-acct_num: ''
+site_id: ''
+site_key: ''
 network: 'livefyre.com'
+network_key: ''
 supplied_js: ''
 parent_div: ''
 custom_instantiate_lf: ''

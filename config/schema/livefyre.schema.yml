@@ -3,7 +3,13 @@ livefyre.settings:
   mapping:
     disabled:
       type: boolean
-    acct_num:
+    site_id:
+      type: string
+    site_key:
+      type: string
+    network:
+      type: string
+    network_key:
       type: string
     supplied_js:
       type: string
