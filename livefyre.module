@@ -16,3 +16,29 @@ function livefyre_node_view(array &$build, EntityInterface $entity, EntityViewDi
   $node_view = new LivefyreNodeView(\Drupal::configFactory());
   $build += $node_view->view($entity, $view_mode);
 }
+
+
+/**
+ * Implements hook_entity_extra_field_info().
+ */
+function livefyre_entity_extra_field_info() {
+  $config = \Drupal::config('livefyre.settings');
+  $extra = [];
+  // Only add extra fields if the location is the node content.
+  if ($config->get('location') === 'content_area') {
+    $entity_info = \Drupal::service('entity_type.bundle.info')->getAllBundleInfo();
+    if (isset($entity_info['node'])) {
+      foreach ($entity_info['node'] as $bundle => $bundle_info) {
+        $extra['node'][$bundle]['display'] = [
+          'livefyre' => [
+            'label' => t('Livefyre'),
+            'description' => t('Livefyre comments'),
+            'weight' => $config->get('weight'),
+          ],
+        ];
+      }
+    }
+
+  }
+  return $extra;
+}
