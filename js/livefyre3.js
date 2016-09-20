@@ -1,18 +1,15 @@
 (function ($, Drupal, drupalSettings) {
   Drupal.behaviors.nodeDetailsSummaries = {
     attach: function (context) {
-      var articleId = fyre.conv.load.makeArticleId(null);
       fyre.conv.load({}, [{
         el: 'livefyre-comments',
         network: drupalSettings.livefyre.network,
-        siteId: drupalSettings.livefyre.account_num,
-        articleId: articleId,
+        siteId: drupalSettings.livefyre.siteId,
+        articleId: drupalSettings.articleId,
         signed: false,
-        collectionMeta: {
-          articleId: articleId,
-          url: fyre.conv.load.makeCollectionUrl()
-        }}]
-      );
+        collectionMeta: drupalSettings.livefyre.collectionMeta,
+        checksum:drupalSettings.livefyre.checksum
+      }]);
     }
   };
 })(jQuery, Drupal, drupalSettings);

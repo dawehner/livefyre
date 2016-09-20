@@ -1,0 +1,4 @@
+services:
+  livefyre.comments_helper:
+    class: \Drupal\livefyre\LivefyreCommentsHelper
+    arguments: ['@config.factory']

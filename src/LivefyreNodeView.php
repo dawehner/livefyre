@@ -4,6 +4,7 @@ namespace Drupal\livefyre;
 
 use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
 
 class LivefyreNodeView {
@@ -16,13 +17,23 @@ class LivefyreNodeView {
   protected $config;
 
   /**
+   * The comments helper.
+   *
+   * @var \Drupal\livefyre\LivefyreCommentsHelper
+   */
+  protected $commentsHelper;
+
+  /**
    * Creates a new LivefyreNodeView instance.
    *
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
    *   The config factory.
+   * @param \Drupal\livefyre\LivefyreCommentsHelper $commentsHelper
+   *   The comments helper.
    */
-  public function __construct(ConfigFactory $configFactory) {
+  public function __construct(ConfigFactory $configFactory, LivefyreCommentsHelper $commentsHelper) {
     $this->config = $configFactory->get('livefyre.settings');
+    $this->commentsHelper = $commentsHelper;
   }
 
   /**
@@ -34,7 +45,7 @@ class LivefyreNodeView {
    * @return bool
    */
   protected function isEnabled(Config $config) {
-    return !$config->get('disabled') && !empty($config->get('acct_num'));
+    return !$config->get('disabled') && !empty($config->get('site_id'));
   }
 
   protected function version2Output() {
@@ -57,7 +68,16 @@ class LivefyreNodeView {
    */
   protected function version3Output(NodeInterface $node, $view_mode, Config $config) {
     $livefyre_div = '<div id="livefyre-comments"></div>';
-    $livefyre_account_num = $config->get('acct_num');
+
+    $site_id = $config->get('site_id');
+    $network = $config->get('network');
+
+    $article_id = $node->id();
+    $title = $node->label();
+    $url = Url::fromRoute('<current>')->setAbsolute(TRUE)->toString(TRUE)->getGeneratedUrl();
+    $collection_meta = $this->commentsHelper->buildCollectionMeta($title, $article_id, $url);
+    $checksum = $this->commentsHelper->buildChecksum($title, $article_id, $url);
+
     $livefyre_parent_div = $config->get('parent_div');
     $livefyre_parent_div_html = '<div id="' . $livefyre_parent_div . '">';
     $livefyre_node_types = $config->get('node_types');
@@ -74,9 +94,12 @@ class LivefyreNodeView {
           ],
           'drupalSettings' => [
             'livefyre' => [
-              'account_num' => $livefyre_account_num,
-            ]
-          ]
+              'siteId' => $site_id,
+              'network' => $network,
+              'collectionMeta' => $collection_meta,
+              'checksum' => $checksum,
+            ],
+          ],
         ],
         '#weight' => $config->get('weight'),
       ];
