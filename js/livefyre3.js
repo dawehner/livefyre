@@ -1,19 +1,27 @@
 (function ($, Drupal, drupalSettings) {
   Drupal.behaviors.nodeDetailsSummaries = {
     attach: function (context) {
-      var articleId = fyre.conv.load.makeArticleId(null);
-      fyre.conv.load({}, [{
+      var networkConfig = {
+        network: drupalSettings.livefyre.network
+      };
+      var convConfig = {
+        siteId: drupalSettings.livefyre.siteId,
+        articleId: drupalSettings.articleId,
         el: 'livefyre-comments',
-        network: drupalSettings.livefyre.network,
-        siteId: drupalSettings.livefyre.account_num,
-        articleId: articleId,
-        signed: false,
-        collectionMeta: {
-          articleId: articleId,
-          url: fyre.conv.load.makeCollectionUrl()
-        }}]
-      );
+        collectionMeta: drupalSettings.livefyre.collectionMeta,
+        checksum: drupalSettings.livefyre.checksum
+      };
+
+      Livefyre.require(['fyre.conv#3', 'auth'], function(Conv, auth) {
+        new Conv(networkConfig, [convConfig], function(commentsWidget) {});
+        auth.delegate({
+          login: function (callback) {
+            // callback(null,{livefyre:'<userauthtoken>'});
+          },
+        });
+      });
     }
   };
 })(jQuery, Drupal, drupalSettings);
+
 
