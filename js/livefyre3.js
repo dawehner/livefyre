@@ -5,7 +5,7 @@
         el: 'livefyre-comments',
         network: drupalSettings.livefyre.network,
         siteId: drupalSettings.livefyre.siteId,
-        articleId: drupalSettings.articleId,
+        articleId: drupalSettings.livefyre.articleId,
         signed: false,
         collectionMeta: drupalSettings.livefyre.collectionMeta,
         checksum:drupalSettings.livefyre.checksum

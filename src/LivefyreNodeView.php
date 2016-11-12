@@ -94,6 +94,7 @@ class LivefyreNodeView {
           ],
           'drupalSettings' => [
             'livefyre' => [
+              'articleId' => $article_id,
               'siteId' => $site_id,
               'network' => $network,
               'collectionMeta' => $collection_meta,
