@@ -133,12 +133,13 @@ class LivefyreNodeView {
       return [];
     }
 
+    /** @var string $livefyre_supplied_js */
     $livefyre_supplied_js = $config->get('supplied_js');
 
-    if ($livefyre_supplied_js !== 'http://zor.livefyre.com/wjs/v3.0/javascripts/livefyre.js'){
+    if ($livefyre_supplied_js !== '//cdn.livefyre.com/Livefyre.js'){
       return $this->version2Output($node, $view_mode, $config);
       //version 3 stuff
-    } elseif ($livefyre_supplied_js == 'http://zor.livefyre.com/wjs/v3.0/javascripts/livefyre.js') {
+    } elseif ($livefyre_supplied_js === '//cdn.livefyre.com/Livefyre.js') {
       return $this->version3Output($node, $view_mode, $config);
     }
     return [];

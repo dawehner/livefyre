@@ -1,15 +1,20 @@
 (function ($, Drupal, drupalSettings) {
   Drupal.behaviors.nodeDetailsSummaries = {
     attach: function (context) {
-      fyre.conv.load({}, [{
-        el: 'livefyre-comments',
+      var networkConfig = {
         network: drupalSettings.livefyre.network,
+      };
+      var convConfig = {
         siteId: drupalSettings.livefyre.siteId,
         articleId: drupalSettings.livefyre.articleId,
-        signed: false,
+        el: 'livefyre-comments',
         collectionMeta: drupalSettings.livefyre.collectionMeta,
-        checksum:drupalSettings.livefyre.checksum
-      }]);
+      };
+
+      Livefyre.require(['fyre.conv#3'], function(Conv) {
+        new Conv(networkConfig, [convConfig], function(commentsWidget) {
+        });
+      });
     }
   };
 })(jQuery, Drupal, drupalSettings);
