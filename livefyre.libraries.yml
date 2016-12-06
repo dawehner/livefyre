@@ -7,5 +7,13 @@ livefyre-admin:
 
 livefyre-3:
   js:
-    //cdn.livefyre.com/Livefyre.js: {}
     js/livefyre3.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/drupalSettings
+    - livefyre/livefyre-3-external
+
+livefyre-3-external:
+  js:
+    //cdn.livefyre.com/Livefyre.js: {}

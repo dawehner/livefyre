@@ -99,6 +99,38 @@ class LivefyreSettingsForm extends ConfigFormBase {
         '#description' => $this->t("Need tracking? Or other variables for your Livefyre comments? Put in your custom HTML and/or javascript here. For javascript make sure to include @<script> tags and be careful.  Messing this up could have bad effects on your site!", ['@<script>' => '<script>']),
       ];
     }
+
+    $form['enterprise_settings'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Enterprise settings'),
+      '#collapsed' => TRUE,
+      '#collapsible' => TRUE,
+    ];
+
+    $form['enterprise_settings']['enable_enterprise'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable enterprise'),
+      '#default_value' => $config->get('enterprise.enable'),
+    ];
+
+    $form['enterprise_settings']['customprofile_js'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Custom profile JS'),
+      '#default_value' => $config->get('enterprise.customprofile_js'),
+    ];
+
+    $form['enterprise_settings']['fyre_authentication'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable fyre authentication'),
+      '#default_value' => $config->get('enterprise.auth_fyre_enable'),
+    ];
+
+    $form['enterprise_settings']['fyre_authentication_url'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable fyre authentication url'),
+      '#default_value' => $config->get('enterprise.fyre_authentication_url'),
+    ];
+
     $form['location'] = [
       '#type' => 'select',
       '#title' => $this->t('Location'),

@@ -10,3 +10,8 @@ custom_script_snippet: ''
 node_types: []
 location: 'content_area'
 weight: 50
+enterprise:
+  enable: false
+  fyre_authentication: false
+  fyre_authentication_url: 'example.auth.fyre.co'
+  customprofile_js: ''

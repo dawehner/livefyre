@@ -42,3 +42,21 @@ function livefyre_entity_extra_field_info() {
   }
   return $extra;
 }
+
+/**
+ * Implements hook_library_info_build().
+ */
+function livefyre_library_info_build() {
+  $libraries = [];
+  $config = \Drupal::config('livefyre.settings');
+  if ($custom_profile_js = $config->get('enterprise.customprofile_js')) {
+    $libraries['livefyre-enterprise-custom-js'] = [
+      'js' => [
+        $custom_profile_js => [],
+      ],
+    ];
+    $libraries['livefyre-enterprise-custom-js']['dependencies'][] = 'livefyre/livefyre-3-external';
+  }
+
+  return $libraries;
+}
