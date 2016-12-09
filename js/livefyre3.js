@@ -10,17 +10,16 @@
         el: 'livefyre-comments',
         collectionMeta: drupalSettings.livefyre.collectionMeta,
       };
-
-      Livefyre.require(['fyre.conv#3', 'auth', 'lfep-auth-delegate#0'], function(Conv, auth, LFEPAuthDelegate) {
+      Livefyre.require(['livefyre-auth', 'identity#1'], function( auth, Identity) {
         if (drupalSettings.livefyre.enterprise.enable && drupalSettings.livefyre.enterprise.fyre_authentication) {
-          var authDelegate = new LFEPAuthDelegate({
-            engageOpts: {
-              app: drupalSettings.livefyre.enterprise.fyre_authentication_url,
-            }
+          var identity = new Identity({
+            app: '//identity.livefyre.com/' + drupalSettings.livefyre.enterprise.fyre_authentication_url
           });
-          auth.delegate(authDelegate);
+          auth.delegate(identity);
         }
+      });
 
+      Livefyre.require(['fyre.conv#3'], function(Conv) {
         new Conv(networkConfig, [convConfig], function(commentsWidget) {});
       });
     }

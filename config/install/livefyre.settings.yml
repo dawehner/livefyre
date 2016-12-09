@@ -14,4 +14,3 @@ enterprise:
   enable: false
   fyre_authentication: false
   fyre_authentication_url: 'example.auth.fyre.co'
-  customprofile_js: ''

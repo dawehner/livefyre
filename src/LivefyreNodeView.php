@@ -106,10 +106,6 @@ class LivefyreNodeView {
         '#weight' => $config->get('weight'),
       ];
 
-      if ($config->get('enterprise.customprofile_js')) {
-        $build['livefyre']['#attched']['library'][] = 'livefyre/livefyre-enterprise-custom-js';
-      }
-
       if (empty($livefyre_parent_div)) {
         $output = $livefyre_div;
       }

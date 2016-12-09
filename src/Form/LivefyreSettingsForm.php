@@ -113,12 +113,6 @@ class LivefyreSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('enterprise.enable'),
     ];
 
-    $form['enterprise_settings']['customprofile_js'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Custom profile JS'),
-      '#default_value' => $config->get('enterprise.customprofile_js'),
-    ];
-
     $form['enterprise_settings']['fyre_authentication'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable fyre authentication'),
