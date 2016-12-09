@@ -13,7 +13,7 @@
       Livefyre.require(['livefyre-auth', 'identity#1'], function( auth, Identity) {
         if (drupalSettings.livefyre.enterprise.enable && drupalSettings.livefyre.enterprise.fyre_authentication) {
           var identity = new Identity({
-            app: '//identity.livefyre.com/' + drupalSettings.livefyre.enterprise.fyre_authentication_url
+            app: drupalSettings.livefyre.enterprise.fyre_authentication_url
           });
           auth.delegate(identity);
         }
