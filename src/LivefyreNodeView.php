@@ -4,6 +4,7 @@ namespace Drupal\livefyre;
 
 use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
 
@@ -26,12 +27,12 @@ class LivefyreNodeView {
   /**
    * Creates a new LivefyreNodeView instance.
    *
-   * @param \Drupal\Core\Config\ConfigFactory $configFactory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The config factory.
    * @param \Drupal\livefyre\LivefyreCommentsHelper $commentsHelper
    *   The comments helper.
    */
-  public function __construct(ConfigFactory $configFactory, LivefyreCommentsHelper $commentsHelper) {
+  public function __construct(ConfigFactoryInterface $configFactory, LivefyreCommentsHelper $commentsHelper) {
     $this->config = $configFactory->get('livefyre.settings');
     $this->commentsHelper = $commentsHelper;
   }
